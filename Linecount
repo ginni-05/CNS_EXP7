@@ -1,0 +1,22 @@
+mapper.py
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+    print("Lines\t1")
+
+reducer.py
+#!/usr/bin/python3
+
+import sys
+
+count = 0
+
+for line in sys.stdin:
+
+    key, value = line.strip().split("\t")
+    count += int(value)
+
+print(f"Lines\t{count}")
+

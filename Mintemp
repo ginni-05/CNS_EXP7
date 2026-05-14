@@ -1,0 +1,41 @@
+mapper.py
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+
+    year, temp = line.strip().split(",")
+
+    print(f"{year}\t{temp}")
+
+
+reducer.py
+#!/usr/bin/python3
+
+import sys
+
+current_year = None
+min_temp = 999999
+
+for line in sys.stdin:
+
+    year, temp = line.strip().split("\t")
+    temp = int(temp)
+
+    if current_year == year:
+
+        if temp < min_temp:
+            min_temp = temp
+
+    else:
+
+        if current_year:
+            print(f"{current_year}\t{min_temp}")
+
+        current_year = year
+        min_temp = temp
+
+if current_year:
+    print(f"{current_year}\t{min_temp}")
+

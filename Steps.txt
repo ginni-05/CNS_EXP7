@@ -1,0 +1,76 @@
+start-dfs.sh - start hadoop
+start-yarn.sh - start yarn
+jps - check whether started or not
+hdfs dfs -mkdir /input - create input directory
+nano data.txt (put random sentences like hello hadoop, hello world etc) - create input file
+hdfs dfs -put data.txt /input - upload file to hdfs
+hdfs dfs -ls /input - verify if the file has been uploaded to hdfs
+Create mapper.py and reducer.py 
+chmod +x mapper.py
+chmod +x reducer.py
+Run hadoop streaming
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming*.jar \
+-files mapper.py, reducer.py \
+-mapper mapper.py \
+-reducer reducer.py \
+-input /input \
+-output /output
+hdfs dfs -cat /output/part-00000 - view output
+hdfs dfs -rm -r /output
+
+# Start HDFS (NameNode, DataNode, SecondaryNameNode)
+start-dfs.sh
+
+# Start YARN (ResourceManager, NodeManager)
+start-yarn.sh
+
+# Check whether Hadoop services started properly
+jps
+
+# Create input directory in HDFS (-p avoids error if already exists)
+hdfs dfs -mkdir -p /input
+
+# Create local input text file
+nano data.txt
+
+# Upload local file to HDFS input folder
+hdfs dfs -put data.txt /input
+
+# Verify uploaded file in HDFS
+hdfs dfs -ls /input
+
+# Create mapper Python script
+nano mapper.py
+
+# Create reducer Python script
+nano reducer.py
+
+# Give execute permission to Python scripts
+chmod +x mapper.py
+chmod +x reducer.py
+
+# Run Hadoop Streaming MapReduce job using Python mapper and reducer
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming*.jar \
+-files mapper.py,reducer.py \
+-mapper mapper.py \
+-reducer reducer.py \
+-input /input \
+-output /output
+
+# View final output from HDFS
+hdfs dfs -cat /output/part-00000
+
+# Delete output folder before rerunning job (Hadoop doesn't overwrite output)
+hdfs dfs -rm -r /output
+
+//universal
+
+hdfs dfs -rm -r /output
+
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming*.jar \
+-mapper "python3 mapper.py" \
+-reducer "python3 reducer.py" \
+-file mapper.py \
+-file reducer.py \
+-input /input/input.txt \
+-output /output

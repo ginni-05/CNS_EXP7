@@ -1,0 +1,42 @@
+mapper.py
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+
+    year, temp = line.strip().split(",")
+
+    print(f"{year}\t{temp}")
+
+reducer.py
+#!/usr/bin/python3
+
+import sys
+
+current_year = None
+total = 0
+count = 0
+
+for line in sys.stdin:
+
+    year, temp = line.strip().split("\t")
+    temp = int(temp)
+
+    if current_year == year:
+
+        total += temp
+        count += 1
+
+    else:
+
+        if current_year:
+            print(f"{current_year}\t{total/count}")
+
+        current_year = year
+        total = temp
+        count = 1
+
+if current_year:
+    print(f"{current_year}\t{total/count}")
+

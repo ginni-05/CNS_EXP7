@@ -1,0 +1,39 @@
+mapper.py
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+
+    for ch in line.strip():
+
+        if ch != " ":
+            print(f"{ch}\t1")
+
+reducer.py
+#!/usr/bin/python3
+
+import sys
+
+current_char = None
+count = 0
+
+for line in sys.stdin:
+
+    char, value = line.strip().split("\t")
+    value = int(value)
+
+    if current_char == char:
+        count += value
+
+    else:
+
+        if current_char:
+            print(f"{current_char}\t{count}")
+
+        current_char = char
+        count = value
+
+if current_char:
+    print(f"{current_char}\t{count}")
+

@@ -1,0 +1,25 @@
+mapper.py
+#!/usr/bin/python3
+
+import sys
+
+for line in sys.stdin:
+
+    words = line.strip().split()
+
+    for word in words:
+        print(f"{word}\t1")
+reducer.py
+#!/usr/bin/python3
+
+import sys
+
+current_word = None
+
+for line in sys.stdin:
+
+    word, count = line.strip().split("\t")
+
+    if current_word != word:
+        print(word)
+        current_word = word
